@@ -26,8 +26,9 @@ public class HomeController {
     @GetMapping("/index")
     public List<BasketballTeam> index(){
         try {
-            return basketBallService.saveAll(
-                    new Crawler().captureJavascript("http://nba.win007.com/jsData/matchResult/17-18/l1_1_2017_10.js?version=2018072222"));
+            Crawler crawler = new Crawler();
+            crawler.init("http://nba.win007.com/jsData/matchResult/17-18/l1_1_2017_10.js?version=2018072222");
+            return basketBallService.saveAll(crawler.getBasketballTeams());
         } catch (Exception e) {
             e.printStackTrace();
             return null;

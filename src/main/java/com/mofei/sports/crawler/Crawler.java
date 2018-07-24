@@ -1,5 +1,7 @@
 package com.mofei.sports.crawler;
 
+import com.mofei.sports.web.base.BasketballMatchType;
+import com.mofei.sports.web.entity.BasketballMatch;
 import com.mofei.sports.web.entity.BasketballTeam;
 import com.mofei.sports.web.repository.BasketBallRepository;
 import com.mofei.sports.web.service.BasketBallService;
@@ -11,17 +13,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 public class Crawler {
-
-    @Autowired
-    public BasketBallService service;
-
-    public  List<BasketballTeam> captureJavascript(String strURL) throws Exception {
-        URL url = new URL(strURL);
+    private String crawlerData;
+    public void init( String strURL){
         try {
+            URL url = new URL(strURL);
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
             InputStreamReader input = new InputStreamReader(httpConn.getInputStream(), "utf-8");
             BufferedReader bufReader = new BufferedReader(input);
@@ -30,7 +30,15 @@ public class Crawler {
             while ((line = bufReader.readLine()) != null) {
                 contentBuf.append(line);
             }
-            String[] arrData  = contentBuf.toString().split(";");
+            crawlerData = contentBuf.toString();
+        }catch (Exception e){
+            System.out.println(e.getStackTrace());
+        }
+    }
+
+    public  List<BasketballTeam> getBasketballTeams() {
+
+            String[] arrData =  crawlerData.split(";");
 
             String arrTeam = arrData[1];
 
@@ -38,45 +46,32 @@ public class Crawler {
 
             String[] teamsArr = arrTeam.split(",");
 
-            List<List<String>> lists = new ArrayList<>();
-            List<String> list = new ArrayList<>();
-            for (String s: teamsArr){
-                if (s.startsWith("[")){
-                    list = new ArrayList<>();
-                    list.add(s.substring(1));
-                    continue;
-                }
-
-                if (s.endsWith("]")){
-                    list.add(s.substring(0,s.length()-2));
-                    lists.add(list);
-                    continue;
-                }
-
-                list.add(s);
-            }
+        List<List<String>> lists = cleanData(teamsArr);
 
             List<BasketballTeam> basketballTeams = generateBasketballTeamList(lists);
 
-            service.saveAll(basketballTeams);
-
-//        System.out.println(arrTeam);
-//
-//
-//        System.out.println("captureJavascript()的结果：\n" + contentBuf.toString());
-
             return basketballTeams;
-        }catch (Exception e){
-            System.out.println(e.fillInStackTrace());
-            return null;
+    }
+
+    public List<List<String>> cleanData(String[] arr){
+        List<List<String>> lists = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        for (String s: arr){
+            if (s.startsWith("[")){
+                list = new ArrayList<>();
+                list.add(s.substring(1));
+                continue;
+            }
+
+            if (s.endsWith("]")){
+                list.add(s.substring(0,s.length()-2));
+                lists.add(list);
+                continue;
+            }
+
+            list.add(s);
         }
-
-
-
-
-
-
-
+        return lists;
     }
 
 
@@ -94,5 +89,50 @@ public class Crawler {
             basketballTeams.add(basketballTeam);
         }
         return basketballTeams;
+    }
+
+    public  List<BasketballMatch> generateBasketballMatchesList(List<List<String>> lists){
+        List<BasketballMatch> BasketballMatches = new ArrayList<>();
+        for (List<String> list : lists){
+            BasketballMatch basketballMatch = new BasketballMatch();
+            basketballMatch.setThirdId(Integer.valueOf(list.get(0)));
+            basketballMatch.setMatchType(BasketballMatchType.valueOf(list.get(1)));
+            basketballMatch.setMatchDate(new Date(list.get(2).replace("'","")));
+            basketballMatch.setHostTeamId(Integer.valueOf(list.get(3)));
+            basketballMatch.setGuestTeamId(Integer.valueOf(list.get(4)));
+            basketballMatch.setHostTeamScore(Integer.valueOf(list.get(5)));
+            basketballMatch.setGuestTeamScore(Integer.valueOf(list.get(6)));
+            basketballMatch.setHostTeamHalfScore(Integer.valueOf(list.get(7)));
+            basketballMatch.setGuestTeamHalfScore(Integer.valueOf(list.get(8)));
+            basketballMatch.setHandicapScore(Float.valueOf(list.get(10)));
+            basketballMatch.setPredictTotalScore(Float.valueOf(list.get(11)));
+            BasketballMatches.add(basketballMatch);
+        }
+        return BasketballMatches;
+    }
+
+    public List<BasketballMatch> getBasketballMatches(){
+
+        /*
+        [ [289789,1,'2017-10-18 10:30',27,21,121,122,71,62,-1,9.5,231,1,1],
+            [289789,1,'2017-10-18 10:30',27,21,121,122,71,62,-1,9.5,231,1,1]
+        ]
+         */
+
+        String[] arrData =  crawlerData.split(";");
+        String arrTeam = arrData[4];
+
+        int firstIndex = arrTeam.indexOf('[');
+        int lastIndex = arrTeam.lastIndexOf(']');
+
+        arrTeam = arrTeam.substring(firstIndex,lastIndex);
+
+        String[] matchesArr = arrTeam.split(",");
+
+        List<List<String>> lists = cleanData(matchesArr);
+
+        List<BasketballMatch> BasketballMatches = generateBasketballMatchesList(lists);
+
+        return  BasketballMatches;
     }
 }
