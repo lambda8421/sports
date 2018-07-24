@@ -1,5 +1,7 @@
 package com.mofei.sports.web.entity;
 
+import com.mofei.sports.web.base.BasketballLeague;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,9 +16,9 @@ public class BasketballTeam {
 
     private int teamNumber;
 
-    public enum League{
-        NBA,CBA,
-    }
+    private BasketballLeague league;
+
+
 
     private String nameZH;
 

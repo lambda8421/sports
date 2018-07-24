@@ -1,5 +1,6 @@
 package com.mofei.sports.web.service;
 
+import com.mofei.sports.web.base.BasketballLeague;
 import com.mofei.sports.web.entity.BasketballTeam;
 import com.mofei.sports.web.repository.BasketBallRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,11 @@ public class BasketBallServiceImpl implements BasketBallService {
     @Override
     public List<BasketballTeam> findAll() {
         return basketBallRepository.findAll();
+    }
+
+    @Override
+    public List<BasketballTeam> findAllByLeague(BasketballLeague league) {
+        return basketBallRepository.findAllByLeague(league);
     }
 
     @Override
