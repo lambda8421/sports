@@ -5,20 +5,28 @@ import com.mofei.sports.web.entity.BasketballMatch;
 import com.mofei.sports.web.entity.BasketballTeam;
 import com.mofei.sports.web.repository.BasketBallRepository;
 import com.mofei.sports.web.service.BasketBallService;
+import com.mofei.sports.web.service.BasketballMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@Controller
+@Component
 public class Crawler {
+    @Autowired
+    protected BasketballMatchService basketballMatchService;
+
     private String crawlerData;
+
     public void init( String strURL){
         try {
             URL url = new URL(strURL);
@@ -34,6 +42,10 @@ public class Crawler {
         }catch (Exception e){
             System.out.println(e.getStackTrace());
         }
+    }
+
+    public void save(){
+        basketballMatchService.saveAll(getBasketballMatches());
     }
 
     public  List<BasketballTeam> getBasketballTeams() {
@@ -95,9 +107,17 @@ public class Crawler {
         List<BasketballMatch> BasketballMatches = new ArrayList<>();
         for (List<String> list : lists){
             BasketballMatch basketballMatch = new BasketballMatch();
+
+            String date = list.get(2).replace("'","");
+            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
             basketballMatch.setThirdId(Integer.valueOf(list.get(0)));
-            basketballMatch.setMatchType(BasketballMatchType.valueOf(list.get(1)));
-            basketballMatch.setMatchDate(new Date(list.get(2).replace("'","")));
+            basketballMatch.setMatchType(BasketballMatchType.of(Integer.valueOf(list.get(1))));
+            try {
+                basketballMatch.setMatchDate(formatter.parse(date));
+            }catch (Exception e){
+                System.out.println(e.getStackTrace());
+            }
             basketballMatch.setHostTeamId(Integer.valueOf(list.get(3)));
             basketballMatch.setGuestTeamId(Integer.valueOf(list.get(4)));
             basketballMatch.setHostTeamScore(Integer.valueOf(list.get(5)));
@@ -125,11 +145,16 @@ public class Crawler {
         int firstIndex = arrTeam.indexOf('[');
         int lastIndex = arrTeam.lastIndexOf(']');
 
-        arrTeam = arrTeam.substring(firstIndex,lastIndex);
+        arrTeam = arrTeam.substring(firstIndex+2,lastIndex-1);
 
-        String[] matchesArr = arrTeam.split(",");
+        String splitStr = "],\\[";
+        String[] matchesArr = arrTeam.split(splitStr);
 
-        List<List<String>> lists = cleanData(matchesArr);
+        List<List<String>> lists = new ArrayList<>();
+        for (String match: matchesArr){
+            String[] strings1 = match.split(",");
+            lists.add(Arrays.asList(strings1));
+        }
 
         List<BasketballMatch> BasketballMatches = generateBasketballMatchesList(lists);
 

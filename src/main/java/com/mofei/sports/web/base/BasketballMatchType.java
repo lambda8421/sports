@@ -18,4 +18,13 @@ public enum  BasketballMatchType {
     public int getValue() {
         return value;
     }
+
+    public static BasketballMatchType of(int value) {
+        for (BasketballMatchType status : BasketballMatchType.values()) {
+            if (status.getValue() == value) {
+                return status;
+            }
+        }
+        return null;
+    }
 }

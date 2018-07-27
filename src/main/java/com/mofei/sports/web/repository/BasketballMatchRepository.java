@@ -11,4 +11,6 @@ public interface BasketballMatchRepository extends JpaRepository<BasketballMatch
 
     public List<BasketballMatch> findAllBySeasonAndMonth(int season, int month);
 
+    @Override
+    <S extends BasketballMatch> List<S> saveAll(Iterable<S> entities);
 }

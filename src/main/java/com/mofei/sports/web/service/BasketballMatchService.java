@@ -7,4 +7,6 @@ import java.util.List;
 public interface BasketballMatchService {
 
     public List<BasketballMatch> findBySeasonAndMonth(int season, int month);
+
+    public List<BasketballMatch> saveAll(List<BasketballMatch> matches);
 }

@@ -2,9 +2,13 @@ package com.mofei.sports.crawler;
 
 import com.mofei.sports.web.entity.BasketballMatch;
 import com.mofei.sports.web.entity.BasketballTeam;
+import com.mofei.sports.web.service.BasketballMatchService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class Main {
     public static void main(String[] args) {
         Crawler crawler = new Crawler();
@@ -16,8 +20,10 @@ public class Main {
         }
 
         List<BasketballTeam> basketballTeams =  crawler.getBasketballTeams();
-        List<BasketballMatch> getBasketballMatches =  crawler.getBasketballMatches();
+        List<BasketballMatch> BasketballMatches =  crawler.getBasketballMatches();
 
         System.out.println("xx");
+
+
     }
 }

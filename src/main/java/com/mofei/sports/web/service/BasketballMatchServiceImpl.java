@@ -18,4 +18,9 @@ public class BasketballMatchServiceImpl implements BasketballMatchService{
                 season,month
         );
     }
+
+    @Override
+    public List<BasketballMatch> saveAll(List<BasketballMatch> matches) {
+        return basketballMatchRepository.saveAll(matches);
+    }
 }
