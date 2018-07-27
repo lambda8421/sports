@@ -109,14 +109,18 @@ public class Crawler {
         for (List<String> list : lists){
             BasketballMatch basketballMatch = new BasketballMatch();
 
-            String date = list.get(2).replace("'","");
-            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
 
             basketballMatch.setThirdId(Integer.valueOf(list.get(0)));
             basketballMatch.setMatchType(BasketballMatchType.of(Integer.valueOf(list.get(1))));
+            String date = list.get(2).replace("'","");
+            basketballMatch.setSeason(Integer.valueOf(date.substring(0,4)));
+            basketballMatch.setSeason(Integer.valueOf(date.substring(5,7)));
+            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
             try {
                 basketballMatch.setMatchDate(formatter.parse(date));
             }catch (Exception e){
+                basketballMatch.setMatchDate(new Date());
                 System.out.println(e.getStackTrace());
             }
             basketballMatch.setHostTeamId(Integer.valueOf(list.get(3)));

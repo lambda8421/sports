@@ -24,7 +24,6 @@ public class BasketballMatch {
 
     private int hostTeamHalfScore;
 
-
     private int  guestTeamId;
 
     private int guestTeamScore;
