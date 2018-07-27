@@ -28,6 +28,7 @@ public class Crawler {
     private String crawlerData;
 
     public void init( String strURL){
+        Test test = new Test();
         try {
             URL url = new URL(strURL);
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
