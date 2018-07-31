@@ -11,14 +11,14 @@ import java.util.List;
 @Component
 public class Main {
     public static void main(String[] args) {
-//        Crawler crawler = new Crawler();
-//
-//        try {
-//            crawler.init("http://nba.win007.com/jsData/matchResult/17-18/l1_1_2017_10.js?version=2018072503");
-//        }catch (Exception e){
-//            System.out.println(e.getStackTrace());
-//        }
-//
+        Crawler crawler = new Crawler();
+
+        try {
+            crawler.init("http://nba.win007.com/jsData/matchResult/17-18/l1_1_2017_10.js?version=2018072503");
+        }catch (Exception e){
+            System.out.println(e.getStackTrace());
+        }
+
 //        List<BasketballTeam> basketballTeams =  crawler.getBasketballTeams();
 //        List<BasketballMatch> BasketballMatches =  crawler.getBasketballMatches();
 
@@ -26,7 +26,5 @@ public class Main {
 
         String ss = "1234";
         System.out.println(ss.substring(0,3));
-
-
     }
 }

@@ -1,14 +1,15 @@
-package com.mofei.sports.web.service;
+package com.mofei.sports.web.service.impl;
 
 import com.mofei.sports.web.entity.BasketballMatch;
 import com.mofei.sports.web.repository.BasketballMatchRepository;
+import com.mofei.sports.web.service.BasketballMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class BasketballMatchServiceImpl implements BasketballMatchService{
+public class BasketballMatchServiceImpl implements BasketballMatchService {
 
     @Autowired
     private BasketballMatchRepository basketballMatchRepository;
