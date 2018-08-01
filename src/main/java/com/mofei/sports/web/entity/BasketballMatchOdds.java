@@ -3,7 +3,9 @@ package com.mofei.sports.web.entity;
 import com.mofei.sports.web.entity.odds.OddsCompany;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class BasketballMatchOdds {
@@ -14,7 +16,7 @@ public class BasketballMatchOdds {
 
     private Long matchId;
 
-    @OneToMany
+    @OneToMany( mappedBy = "basketballMatchOdds")
     private List<OddsCompany> list;
 }
 

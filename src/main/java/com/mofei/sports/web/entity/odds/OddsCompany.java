@@ -1,13 +1,19 @@
 package com.mofei.sports.web.entity.odds;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.mofei.sports.web.entity.BasketballMatchOdds;
+
+import javax.persistence.*;
 
 @Entity
-public abstract class OddsCompany {
+public class OddsCompany {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
+
+    private String name;
+
+    private float oddsValue;
+
+    @ManyToOne
+    private BasketballMatchOdds basketballMatchOdds;
 }
