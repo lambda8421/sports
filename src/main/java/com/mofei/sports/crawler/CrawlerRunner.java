@@ -21,5 +21,9 @@ public class CrawlerRunner implements CommandLineRunner {
 
         saveDataService.saveBasketballTeams( CleansingData.getBasketballTeams(crawler.getCrawlerData()));
         saveDataService.saveBasketballMatches( CleansingData.getBasketballMatches(crawler.getCrawlerData()));
+
+        crawler.init("http://nba.win007.com/jsData/analyOdds/289788.js?1532707729000)");
+        saveDataService.saveBasketballMatchOdds( CleansingData.getBasketballMatchOdds(crawler.getCrawlerData()));
+
     }
 }

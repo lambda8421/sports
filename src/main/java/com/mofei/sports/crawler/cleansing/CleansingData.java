@@ -2,16 +2,54 @@ package com.mofei.sports.crawler.cleansing;
 
 import com.mofei.sports.web.base.BasketballMatchType;
 import com.mofei.sports.web.entity.BasketballMatch;
+import com.mofei.sports.web.entity.BasketballMatchOdds;
 import com.mofei.sports.web.entity.BasketballTeam;
+import com.mofei.sports.web.entity.odds.Aomen;
+import com.mofei.sports.web.entity.odds.OddsCompany;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class CleansingData {
+
+    public static  List<BasketballMatchOdds> getBasketballMatchOdds(String crawlerData) {
+
+        String tidyData = crawlerData.substring(15,crawlerData.length()-13);
+
+        String[] oddsData = tidyData.split("\\^");
+
+        List<List<String>> lists = new ArrayList<>();
+        for (String odds : oddsData){
+            String[] tmp = odds.split(";");
+            List<String> oddsList = new ArrayList<>();
+            oddsList.add(tmp[0]);
+            oddsList.add(tmp[1]);
+            Collections.addAll(oddsList,tmp[2].split(","));
+            lists.add(oddsList);
+        }
+
+        List<BasketballMatchOdds> basketballMatchOdds = generateBasketballMatchesOddsList(lists);
+
+
+        return basketballMatchOdds;
+    }
+
+    private static List<BasketballMatchOdds> generateBasketballMatchesOddsList(List<List<String>> lists){
+        List<BasketballMatchOdds> basketballMatchOdds = new ArrayList<>();
+        for (List<String> ss : lists){
+            BasketballMatchOdds odds = new BasketballMatchOdds();
+//            List<OddsCompany> oddsCompanies = new ArrayList<>();
+//            oddsCompanies.add(new Aomen());
+//            odds.setList(oddsCompanies);
+
+            List<OddsCompany> oddsCompanies = new ArrayList<>();
+            oddsCompanies.add(new OddsCompany());
+
+            basketballMatchOdds.add(odds);
+        }
+        return basketballMatchOdds;
+    }
 
     //get basketball team data
     public static  List<BasketballTeam> getBasketballTeams(String crawlerData) {

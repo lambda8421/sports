@@ -10,10 +10,48 @@ public class OddsCompany {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    protected String name;
 
-    private float oddsValue;
+    private float initialHandicapScore;
 
-    @ManyToOne
-    private BasketballMatchOdds basketballMatchOdds;
+    private float initialHostHandicapScoreOdds;
+
+    private float initialGuestHandicapScoreOdds;
+
+    private float instantHandicapScore;
+
+    private float instantHostHandicapScoreOdds;
+
+    private float instantGuestHandicapScoreOdds;
+
+    private float initialTotalScore;
+
+    private float initialHostTotalScoreOdds;
+
+    private float initialGuestTotalScoreOdds;
+
+    private float instantTotalScore;
+
+    private float instantHostTotalScoreOdds;
+
+    private float instantGuestTotalScoreOdds;
+
+    public OddsCompany() {
+    }
+
+    public OddsCompany(String name, float initialHandicapScore, float initialHostHandicapScoreOdds, float initialGuestHandicapScoreOdds, float instantHandicapScore, float instantHostHandicapScoreOdds, float instantGuestHandicapScoreOdds, float initialTotalScore, float initialHostTotalScoreOdds, float initialGuestTotalScoreOdds, float instantTotalScore, float instantHostTotalScoreOdds, float instantGuestTotalScoreOdds) {
+        this.name = name;
+        this.initialHandicapScore = initialHandicapScore;
+        this.initialHostHandicapScoreOdds = initialHostHandicapScoreOdds;
+        this.initialGuestHandicapScoreOdds = initialGuestHandicapScoreOdds;
+        this.instantHandicapScore = instantHandicapScore;
+        this.instantHostHandicapScoreOdds = instantHostHandicapScoreOdds;
+        this.instantGuestHandicapScoreOdds = instantGuestHandicapScoreOdds;
+        this.initialTotalScore = initialTotalScore;
+        this.initialHostTotalScoreOdds = initialHostTotalScoreOdds;
+        this.initialGuestTotalScoreOdds = initialGuestTotalScoreOdds;
+        this.instantTotalScore = instantTotalScore;
+        this.instantHostTotalScoreOdds = instantHostTotalScoreOdds;
+        this.instantGuestTotalScoreOdds = instantGuestTotalScoreOdds;
+    }
 }
