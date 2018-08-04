@@ -32,7 +32,10 @@ public class SaveDataService {
         basketBallService.saveAll(basketballTeams);
     }
 
-    public void saveBasketballMatchOdds(List<BasketballMatchOdds> basketballMatchOdds){
+    public void saveAllBasketballMatchOdds(List<BasketballMatchOdds> basketballMatchOdds){
         basketballMatchOddsService.saveAll(basketballMatchOdds);
+    }
+    public void saveBasketballMatchOdds(BasketballMatchOdds basketballMatchOdds){
+        basketballMatchOddsService.save(basketballMatchOdds);
     }
 }

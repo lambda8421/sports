@@ -10,6 +10,8 @@ public class OddsCompany {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long matchId;
+
     private Long companyId;
 
     protected String name;
