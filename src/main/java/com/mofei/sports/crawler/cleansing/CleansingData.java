@@ -13,7 +13,7 @@ import java.util.*;
 
 public class CleansingData {
 
-    public static BasketballMatchOdds getBasketballMatchOdds(String crawlerData) {
+    public static BasketballMatchOdds getBasketballMatchOdds(String crawlerData,Long matchId) {
 
         String tidyData = crawlerData.substring(15, crawlerData.length() - 13);
 
@@ -29,7 +29,7 @@ public class CleansingData {
             lists.add(oddsList);
         }
 
-        BasketballMatchOdds basketballMatchOdds = generateBasketballMatchesOdds(lists);
+        BasketballMatchOdds basketballMatchOdds = generateBasketballMatchesOdds(lists,matchId);
 
 
         return basketballMatchOdds;
@@ -39,21 +39,21 @@ public class CleansingData {
         return null;
     }
 
-    private static BasketballMatchOdds generateBasketballMatchesOdds(List<List<String>> lists) {
+    private static BasketballMatchOdds generateBasketballMatchesOdds(List<List<String>> lists,Long matchId) {
         BasketballMatchOdds odds = new BasketballMatchOdds();
         List<OddsCompany> oddsCompanies = new ArrayList<>();
+        odds.setMatchId(matchId);
 
         for (List<String> ss : lists) {
-
             OddsCompany oddsCompany = new OddsCompany(
                     Long.valueOf(ss.get(0)), ss.get(1), Float.valueOf(ss.get(2)),
                     Float.valueOf(ss.get(3)), Float.valueOf(ss.get(4)), Float.valueOf(ss.get(5)),
                     Float.valueOf(ss.get(6)), Float.valueOf(ss.get(7)), Float.valueOf(ss.get(8)),
                     Float.valueOf(ss.get(9)), Float.valueOf(ss.get(10)), Float.valueOf(ss.get(11)),
                     Float.valueOf(ss.get(12)), Float.valueOf(ss.get(13)));
+            oddsCompany.setBasketballMatchOdds(odds);
             oddsCompanies.add(oddsCompany);
         }
-
         odds.setList(oddsCompanies);
 
         return odds;

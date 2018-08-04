@@ -1,5 +1,6 @@
 package com.mofei.sports.web.entity.odds;
 
+import com.mofei.sports.web.entity.BasketballMatch;
 import com.mofei.sports.web.entity.BasketballMatchOdds;
 
 import javax.persistence.*;
@@ -10,7 +11,9 @@ public class OddsCompany {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long matchId;
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    private BasketballMatchOdds basketballMatchOdds;
 
     private Long companyId;
 
@@ -43,7 +46,23 @@ public class OddsCompany {
     public OddsCompany() {
     }
 
-    public OddsCompany(Long companyId, String name, float initialHandicapScore, float initialHostHandicapScoreOdds, float initialGuestHandicapScoreOdds, float instantHandicapScore, float instantHostHandicapScoreOdds, float instantGuestHandicapScoreOdds, float initialTotalScore, float initialHostTotalScoreOdds, float initialGuestTotalScoreOdds, float instantTotalScore, float instantHostTotalScoreOdds, float instantGuestTotalScoreOdds) {
+
+    public BasketballMatchOdds getBasketballMatchOdds() {
+        return basketballMatchOdds;
+    }
+
+    public void setBasketballMatchOdds(BasketballMatchOdds basketballMatchOdds) {
+        this.basketballMatchOdds = basketballMatchOdds;
+    }
+
+    public OddsCompany(Long companyId, String name,
+                       float initialHandicapScore,
+                       float initialHostHandicapScoreOdds, float initialGuestHandicapScoreOdds,
+                       float instantHandicapScore, float instantHostHandicapScoreOdds,
+                       float instantGuestHandicapScoreOdds, float initialTotalScore,
+                       float initialHostTotalScoreOdds, float initialGuestTotalScoreOdds,
+                       float instantTotalScore, float instantHostTotalScoreOdds,
+                       float instantGuestTotalScoreOdds) {
         this.companyId = companyId;
         this.name = name;
 
@@ -66,6 +85,4 @@ public class OddsCompany {
         this.instantTotalScore = instantTotalScore;
         this.instantGuestTotalScoreOdds = instantGuestTotalScoreOdds;
     }
-
-
 }

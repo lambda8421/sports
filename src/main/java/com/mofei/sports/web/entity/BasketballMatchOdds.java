@@ -14,8 +14,7 @@ public class BasketballMatchOdds {
 
     private Long matchId;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "match_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "basketballMatchOdds")
     private List<OddsCompany> list;
 
     public BasketballMatchOdds() {

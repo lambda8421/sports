@@ -1,6 +1,5 @@
 package com.mofei.sports.crawler;
 
-import com.mofei.sports.crawler.Crawler;
 import com.mofei.sports.crawler.cleansing.CleansingData;
 import com.mofei.sports.crawler.cleansing.SaveDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,9 @@ public class CrawlerRunner implements CommandLineRunner {
     private Crawler crawler;
 
     @Autowired
+    private MatchOddsCrawler matchOddsCrawler;
+
+    @Autowired
     private SaveDataService saveDataService;
 
     @Override
@@ -22,8 +24,11 @@ public class CrawlerRunner implements CommandLineRunner {
         saveDataService.saveBasketballTeams( CleansingData.getBasketballTeams(crawler.getCrawlerData()));
         saveDataService.saveBasketballMatches( CleansingData.getBasketballMatches(crawler.getCrawlerData()));
 
-        crawler.init("http://nba.win007.com/jsData/analyOdds/289788.js?1532707729000)");
-        saveDataService.saveBasketballMatchOdds( CleansingData.getBasketballMatchOdds(crawler.getCrawlerData()));
+        matchOddsCrawler.init("http://nba.win007.com/jsData/analyOdds/289788.js?1532707729000)");
+        saveDataService.saveBasketballMatchOdds(
+                CleansingData.getBasketballMatchOdds(
+                        matchOddsCrawler.getCrawlerData(),
+                        matchOddsCrawler.getMatchId()));
 
     }
 }
