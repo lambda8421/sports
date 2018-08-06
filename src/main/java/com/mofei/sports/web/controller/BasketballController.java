@@ -6,6 +6,7 @@ import com.mofei.sports.web.entity.BasketballTeam;
 import com.mofei.sports.web.service.BasketBallService;
 import com.mofei.sports.web.service.BasketballMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,14 @@ public class BasketballController {
     @ResponseBody
     public List<BasketballMatch> getNBATeamsMatches(@PathVariable Integer season, @PathVariable Integer month){
         List<BasketballMatch> basketballMatches = basketballMatchService.findBySeasonAndMonth(season,month);
+        return basketballMatches;
+    }
+
+    @GetMapping("/nba/matches/{page}")
+    @ResponseBody
+    public List<BasketballMatch> getNBAMatchesByPage(@PathVariable Integer page){
+        PageRequest pageRequest = new PageRequest(page,10);
+        List<BasketballMatch> basketballMatches = basketballMatchService.findAll(pageRequest);
         return basketballMatches;
     }
 
