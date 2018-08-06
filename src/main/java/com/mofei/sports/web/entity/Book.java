@@ -1,18 +1,19 @@
 package com.mofei.sports.web.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
-
+    
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name= "cate",referencedColumnName = "cate")
     private BookCategory bookCategory;
 
     public Book() {

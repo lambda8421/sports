@@ -1,21 +1,33 @@
 package com.mofei.sports.web.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class BookCategory {
+public class BookCategory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "cate")
+    private Integer cate;
+
     private String name;
 
-    @OneToMany(mappedBy = "bookCategory")
+    @OneToMany(mappedBy = "bookCategory",cascade = CascadeType.ALL)
     private List<Book> list;
 
     public BookCategory() {
+    }
+
+    public Integer getCate() {
+        return cate;
+    }
+
+    public void setCate(Integer cate) {
+        this.cate = cate;
     }
 
     public Integer getId() {
