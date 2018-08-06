@@ -14,7 +14,7 @@ public class BasketballMatch {
     @GeneratedValue
     private Long id;
 
-    private int thirdId;
+    private Long matchId;
 
     private BasketballMatchType matchType;
 
@@ -48,12 +48,12 @@ public class BasketballMatch {
         this.id = id;
     }
 
-    public int getThirdId() {
-        return thirdId;
+    public Long getMatchId() {
+        return matchId;
     }
 
-    public void setThirdId(int thirdId) {
-        this.thirdId = thirdId;
+    public void setMatchId(Long matchId) {
+        this.matchId = matchId;
     }
 
     public BasketballMatchType getMatchType() {

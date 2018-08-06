@@ -4,16 +4,13 @@ import com.mofei.sports.web.entity.BasketballMatch;
 import com.mofei.sports.web.entity.BasketballMatchOdds;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class OddsCompany {
+public class OddsCompany implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "match_id")
-    private BasketballMatchOdds basketballMatchOdds;
 
     private Long companyId;
 
@@ -44,15 +41,6 @@ public class OddsCompany {
     private float instantGuestTotalScoreOdds;
 
     public OddsCompany() {
-    }
-
-
-    public BasketballMatchOdds getBasketballMatchOdds() {
-        return basketballMatchOdds;
-    }
-
-    public void setBasketballMatchOdds(BasketballMatchOdds basketballMatchOdds) {
-        this.basketballMatchOdds = basketballMatchOdds;
     }
 
     public OddsCompany(Long companyId, String name,

@@ -50,11 +50,9 @@ public class HomeController {
         bookCategory.setCate(111);
         Book book1 = new Book();
         book1.setTitle("X1");
-        book1.setBookCategory(bookCategory);
 
         Book book2 = new Book();
         book2.setTitle("X2");
-        book2.setBookCategory(bookCategory);
 
         List<Book> books = new ArrayList<>();
         books.add(book1);

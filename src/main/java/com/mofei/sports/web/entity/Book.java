@@ -11,10 +11,6 @@ public class Book implements Serializable {
     private Integer id;
 
     private String title;
-    
-    @ManyToOne
-    @JoinColumn(name= "cate",referencedColumnName = "cate")
-    private BookCategory bookCategory;
 
     public Book() {
     }
@@ -35,11 +31,4 @@ public class Book implements Serializable {
         this.id = id;
     }
 
-    public BookCategory getBookCategory() {
-        return bookCategory;
-    }
-
-    public void setBookCategory(BookCategory bookCategory) {
-        this.bookCategory = bookCategory;
-    }
 }

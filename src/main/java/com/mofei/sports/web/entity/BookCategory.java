@@ -16,7 +16,9 @@ public class BookCategory implements Serializable {
 
     private String name;
 
-    @OneToMany(mappedBy = "bookCategory",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JoinColumn(name = "cate",referencedColumnName = "cate")
     private List<Book> list;
 
     public BookCategory() {

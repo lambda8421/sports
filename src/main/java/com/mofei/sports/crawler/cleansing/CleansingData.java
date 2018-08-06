@@ -4,9 +4,7 @@ import com.mofei.sports.web.base.BasketballMatchType;
 import com.mofei.sports.web.entity.BasketballMatch;
 import com.mofei.sports.web.entity.BasketballMatchOdds;
 import com.mofei.sports.web.entity.BasketballTeam;
-import com.mofei.sports.web.entity.odds.Aomen;
 import com.mofei.sports.web.entity.odds.OddsCompany;
-import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -15,7 +13,14 @@ public class CleansingData {
 
     public static BasketballMatchOdds getBasketballMatchOdds(String crawlerData,Long matchId) {
 
-        String tidyData = crawlerData.substring(15, crawlerData.length() - 13);
+        String tidyData;
+        if (crawlerData.length() > 28){
+            tidyData = crawlerData.substring(15, crawlerData.length() - 13);
+        }else {
+            System.out.println(matchId);
+            return null;
+        }
+
 
         String[] oddsData = tidyData.split("\\^");
 
@@ -41,9 +46,8 @@ public class CleansingData {
 
     private static BasketballMatchOdds generateBasketballMatchesOdds(List<List<String>> lists,Long matchId) {
         BasketballMatchOdds odds = new BasketballMatchOdds();
-        List<OddsCompany> oddsCompanies = new ArrayList<>();
         odds.setMatchId(matchId);
-
+        List<OddsCompany> oddsCompanies = new ArrayList<>();
         for (List<String> ss : lists) {
             OddsCompany oddsCompany = new OddsCompany(
                     Long.valueOf(ss.get(0)), ss.get(1), Float.valueOf(ss.get(2)),
@@ -51,7 +55,6 @@ public class CleansingData {
                     Float.valueOf(ss.get(6)), Float.valueOf(ss.get(7)), Float.valueOf(ss.get(8)),
                     Float.valueOf(ss.get(9)), Float.valueOf(ss.get(10)), Float.valueOf(ss.get(11)),
                     Float.valueOf(ss.get(12)), Float.valueOf(ss.get(13)));
-            oddsCompany.setBasketballMatchOdds(odds);
             oddsCompanies.add(oddsCompany);
         }
         odds.setList(oddsCompanies);
@@ -121,7 +124,7 @@ public class CleansingData {
             BasketballMatch basketballMatch = new BasketballMatch();
 
 
-            basketballMatch.setThirdId(Integer.valueOf(list.get(0)));
+            basketballMatch.setMatchId(Long.valueOf(list.get(0)));
             basketballMatch.setMatchType(BasketballMatchType.of(Integer.valueOf(list.get(1))));
             String date = list.get(2).replace("'", "");
             basketballMatch.setSeason(Integer.valueOf(date.substring(0, 4)));

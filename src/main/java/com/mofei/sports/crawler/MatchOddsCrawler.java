@@ -13,7 +13,7 @@ public class MatchOddsCrawler extends Crawler {
     @Override
     public void init(String strURL) {
         super.init(strURL);
-        this.matchId = Long.valueOf(findMatchIdFromUrl(strURL));
+//        this.matchId = Long.valueOf(findMatchIdFromUrl(strURL));
     }
 
     public Long getMatchId() {
@@ -25,7 +25,7 @@ public class MatchOddsCrawler extends Crawler {
         String regex = "\\d+.js";
 
         Pattern pattern = Pattern.compile(regex);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         Matcher m = pattern.matcher(s);
         while (m.find()) {
             String str = m.group();

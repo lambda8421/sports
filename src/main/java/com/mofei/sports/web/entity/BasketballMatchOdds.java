@@ -3,18 +3,21 @@ package com.mofei.sports.web.entity;
 import com.mofei.sports.web.entity.odds.OddsCompany;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class BasketballMatchOdds {
+public class BasketballMatchOdds implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "match_id")
     private Long matchId;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "basketballMatchOdds")
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "match_id",referencedColumnName = "match_id")
     private List<OddsCompany> list;
 
     public BasketballMatchOdds() {
