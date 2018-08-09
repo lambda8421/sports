@@ -25,9 +25,7 @@ public class CrawlerRunner implements CommandLineRunner {
 
     @Override
     public void run(String...args) throws Exception {
-
-
-        crawler.init("http://nba.win007.com/jsData/matchResult/17-18/l1_1_2017_10.js?version=2018072503)");
+        crawler.init("http://nba.win007.com/jsData/matchResult/17-18/l1_1_2017_12.js?version=2018072503)");
 
         saveDataService.saveBasketballTeams( CleansingData.getBasketballTeams(crawler.getCrawlerData()));
 
@@ -43,6 +41,8 @@ public class CrawlerRunner implements CommandLineRunner {
                             match.getMatchId()));
         }
 
+        addTaskToQueue();
+
     }
 
     public Map<String, List<String>> addTaskToQueue(){
@@ -56,7 +56,7 @@ public class CrawlerRunner implements CommandLineRunner {
             List<String> yearAndMonthOfSeason = new ArrayList<>();
             for (int j = 10; j < 17; j++) {
                 String month = j > 12 ? "0"+(j-12):""+j;
-                String yearMonth = "20" + month;
+                String yearMonth = "20" + (j>12 ?  next : prev )+ "_" +  month;
                 yearAndMonthOfSeason.add(yearMonth);
             }
 
@@ -64,8 +64,6 @@ public class CrawlerRunner implements CommandLineRunner {
         }
 
         return seasons;
-
-
 
     }
 }
