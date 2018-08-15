@@ -123,6 +123,11 @@ public class CleansingData {
         for (List<String> list : lists) {
             BasketballMatch basketballMatch = new BasketballMatch();
 
+//            try {
+//                Float.valueOf(list.get(10));
+//            }catch (Exception e){
+//                System.out.println(list.toString());
+//            }
 
             basketballMatch.setMatchId(Long.valueOf(list.get(0)));
             basketballMatch.setMatchType(BasketballMatchType.of(Integer.valueOf(list.get(1))));
@@ -142,8 +147,8 @@ public class CleansingData {
             basketballMatch.setGuestTeamScore(Integer.valueOf(list.get(6)));
             basketballMatch.setHostTeamHalfScore(Integer.valueOf(list.get(7)));
             basketballMatch.setGuestTeamHalfScore(Integer.valueOf(list.get(8)));
-            basketballMatch.setHandicapScore(Float.valueOf(list.get(10)));
-            basketballMatch.setPredictTotalScore(Float.valueOf(list.get(11)));
+            basketballMatch.setHandicapScore(list.get(10).equals("") ? 0: Float.valueOf(list.get(10)));
+            basketballMatch.setPredictTotalScore(list.get(11).equals("") ? 0: Float.valueOf(list.get(11)));
             BasketballMatches.add(basketballMatch);
         }
         return BasketballMatches;

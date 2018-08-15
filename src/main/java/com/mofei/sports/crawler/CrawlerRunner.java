@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class CrawlerRunner implements CommandLineRunner {
@@ -25,7 +22,24 @@ public class CrawlerRunner implements CommandLineRunner {
 
     @Override
     public void run(String...args) throws Exception {
-        crawler.init("http://nba.win007.com/jsData/matchResult/17-18/l1_1_2017_12.js?version=2018072503)");
+
+
+        Queue<String> queue = generateTaskToQueue();
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String url = queue.poll();
+//                String url = "http://nba.win007.com/jsData/matchResult/17-18/l1_1_2018_1.js";
+                executeTask(url);
+            }
+        },3000,5000);
+
+    }
+
+    private void executeTask(String url){
+        crawler.init(url);
 
         saveDataService.saveBasketballTeams( CleansingData.getBasketballTeams(crawler.getCrawlerData()));
 
@@ -33,19 +47,16 @@ public class CrawlerRunner implements CommandLineRunner {
         saveDataService.saveBasketballMatches( basketballMatchList);
 
         for(BasketballMatch match : basketballMatchList){
-            String url = "http://nba.win007.com/jsData/analyOdds/" + match.getMatchId() + ".js";
-            matchOddsCrawler.init(url);
+            String oddsUrl = "http://nba.win007.com/jsData/analyOdds/" + match.getMatchId() + ".js";
+            matchOddsCrawler.init(oddsUrl);
             saveDataService.saveBasketballMatchOdds(
                     CleansingData.getBasketballMatchOdds(
                             matchOddsCrawler.getCrawlerData(),
                             match.getMatchId()));
         }
-
-        addTaskToQueue();
-
     }
 
-    public Map<String, List<String>> addTaskToQueue(){
+    private Queue<String> generateTaskToQueue(){
 
         Map<String,List<String>> seasons = new HashMap<>();
         for (int i = 0; i < 18; i++) {
@@ -55,7 +66,7 @@ public class CrawlerRunner implements CommandLineRunner {
 
             List<String> yearAndMonthOfSeason = new ArrayList<>();
             for (int j = 10; j < 17; j++) {
-                String month = j > 12 ? "0"+(j-12):""+j;
+                String month = ""+ (j > 12 ? (j-12) : j);
                 String yearMonth = "20" + (j>12 ?  next : prev )+ "_" +  month;
                 yearAndMonthOfSeason.add(yearMonth);
             }
@@ -63,7 +74,16 @@ public class CrawlerRunner implements CommandLineRunner {
             seasons.put(season,yearAndMonthOfSeason);
         }
 
-        return seasons;
+        Queue<String> queue = new ArrayDeque<>();
+
+        for (Map.Entry<String, List<String>> entry : seasons.entrySet()) {
+            for (String s: entry.getValue()){
+                String url = "http://nba.win007.com/jsData/matchResult/" + entry.getKey() + "/l1_1_" + s + ".js";
+                queue.add(url);
+            }
+        }
+
+        return queue;
 
     }
 }
