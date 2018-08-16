@@ -17,6 +17,7 @@ public class CleansingData {
         if (crawlerData.length() > 28){
             tidyData = crawlerData.substring(15, crawlerData.length() - 13);
         }else {
+            System.out.println(crawlerData);
             System.out.println(matchId);
             return null;
         }
@@ -50,11 +51,20 @@ public class CleansingData {
         List<OddsCompany> oddsCompanies = new ArrayList<>();
         for (List<String> ss : lists) {
             OddsCompany oddsCompany = new OddsCompany(
-                    Long.valueOf(ss.get(0)), ss.get(1), Float.valueOf(ss.get(2)),
-                    Float.valueOf(ss.get(3)), Float.valueOf(ss.get(4)), Float.valueOf(ss.get(5)),
-                    Float.valueOf(ss.get(6)), Float.valueOf(ss.get(7)), Float.valueOf(ss.get(8)),
-                    Float.valueOf(ss.get(9)), Float.valueOf(ss.get(10)), Float.valueOf(ss.get(11)),
-                    Float.valueOf(ss.get(12)), Float.valueOf(ss.get(13)));
+                    Long.valueOf(ss.get(0)),
+                    ss.get(1),
+                    ss.size() > 2 ? (ss.get(2).equals("") ? 0 : Float.valueOf(ss.get(2))):0,
+                    ss.size() > 3 ? (ss.get(3).equals("") ? 0 :Float.valueOf(ss.get(3))):0,
+                    ss.size() > 4 ? (ss.get(4).equals("") ? 0 :Float.valueOf(ss.get(4))):0,
+                    ss.size() > 5 ? (ss.get(5).equals("") ? 0 :Float.valueOf(ss.get(5))):0,
+                    ss.size() > 6 ? (ss.get(6).equals("") ? 0 :Float.valueOf(ss.get(6))):0,
+                    ss.size() > 7 ? (ss.get(7).equals("") ? 0 :Float.valueOf(ss.get(7))):0,
+                    ss.size() > 8 ? ( ss.get(8).equals("") ? 0 : Float.valueOf(ss.get(8))):0,
+                    ss.size() > 9 ? ( ss.get(9).equals("") ? 0 :Float.valueOf(ss.get(9))):0,
+                    ss.size() > 10 ? ( ss.get(10).equals("") ? 0 :Float.valueOf(ss.get(10))):0,
+                    ss.size() > 11 ? ( ss.get(11).equals("") ? 0 :Float.valueOf(ss.get(11))):0,
+                    ss.size() > 12 ? ( ss.get(12).equals("") ? 0 :Float.valueOf(ss.get(12))):0,
+                    ss.size() > 13 ? ( ss.get(13).equals("") ? 0 :Float.valueOf(ss.get(13))):0);
             oddsCompanies.add(oddsCompany);
         }
         odds.setList(oddsCompanies);
@@ -67,6 +77,9 @@ public class CleansingData {
 
         String[] arrData = crawlerData.split(";");
 
+        if (arrData.length < 2){
+            return null;
+        }
         String arrTeam = arrData[1];
 
         arrTeam = arrTeam.substring(15, arrTeam.length() - 1);
@@ -143,10 +156,10 @@ public class CleansingData {
             }
             basketballMatch.setHostTeamId(Integer.valueOf(list.get(3)));
             basketballMatch.setGuestTeamId(Integer.valueOf(list.get(4)));
-            basketballMatch.setHostTeamScore(Integer.valueOf(list.get(5)));
-            basketballMatch.setGuestTeamScore(Integer.valueOf(list.get(6)));
-            basketballMatch.setHostTeamHalfScore(Integer.valueOf(list.get(7)));
-            basketballMatch.setGuestTeamHalfScore(Integer.valueOf(list.get(8)));
+            basketballMatch.setHostTeamScore(list.get(5).equals("") ?  0 : Integer.valueOf(list.get(5)) );
+            basketballMatch.setGuestTeamScore(list.get(6).equals("") ?  0 :Integer.valueOf(list.get(6)));
+            basketballMatch.setHostTeamHalfScore(list.get(7).equals("") || list.get(7).equals("''") ?  0 : Integer.valueOf(list.get(7)));
+            basketballMatch.setGuestTeamHalfScore(list.get(8).equals("") || list.get(8).equals("''")?  0 : Integer.valueOf(list.get(8)));
             basketballMatch.setHandicapScore(list.get(10).equals("") ? 0: Float.valueOf(list.get(10)));
             basketballMatch.setPredictTotalScore(list.get(11).equals("") ? 0: Float.valueOf(list.get(11)));
             BasketballMatches.add(basketballMatch);

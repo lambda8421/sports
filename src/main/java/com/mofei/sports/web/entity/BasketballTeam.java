@@ -11,7 +11,7 @@ import javax.persistence.Id;
 public class BasketballTeam {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private int teamNumber;

@@ -3,6 +3,8 @@ package com.mofei.sports.crawler;
 import com.mofei.sports.crawler.cleansing.CleansingData;
 import com.mofei.sports.crawler.cleansing.SaveDataService;
 import com.mofei.sports.web.entity.BasketballMatch;
+import com.mofei.sports.web.entity.BasketballMatchOdds;
+import com.mofei.sports.web.entity.BasketballTeam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -41,7 +43,10 @@ public class CrawlerRunner implements CommandLineRunner {
     private void executeTask(String url){
         crawler.init(url);
 
-        saveDataService.saveBasketballTeams( CleansingData.getBasketballTeams(crawler.getCrawlerData()));
+        List<BasketballTeam> basketballTeams = CleansingData.getBasketballTeams(crawler.getCrawlerData());
+        if (basketballTeams != null){
+            saveDataService.saveBasketballTeams(basketballTeams);
+        }
 
         List<BasketballMatch> basketballMatchList = CleansingData.getBasketballMatches(crawler.getCrawlerData());
         saveDataService.saveBasketballMatches( basketballMatchList);
@@ -49,10 +54,12 @@ public class CrawlerRunner implements CommandLineRunner {
         for(BasketballMatch match : basketballMatchList){
             String oddsUrl = "http://nba.win007.com/jsData/analyOdds/" + match.getMatchId() + ".js";
             matchOddsCrawler.init(oddsUrl);
-            saveDataService.saveBasketballMatchOdds(
-                    CleansingData.getBasketballMatchOdds(
-                            matchOddsCrawler.getCrawlerData(),
-                            match.getMatchId()));
+            BasketballMatchOdds basketballMatchOdds = CleansingData.getBasketballMatchOdds(
+                    matchOddsCrawler.getCrawlerData(),
+                    match.getMatchId());
+            if (basketballMatchOdds != null){
+                saveDataService.saveBasketballMatchOdds(basketballMatchOdds);
+            }
         }
     }
 
