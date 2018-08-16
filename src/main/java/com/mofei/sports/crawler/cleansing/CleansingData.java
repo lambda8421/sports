@@ -177,7 +177,12 @@ public class CleansingData {
          */
 
         String[] arrData = crawlerData.split(";");
-        String arrTeam = arrData[4];
+        String arrTeam = null;
+        if (arrData.length > 4){
+            arrTeam = arrData[4];
+        }else {
+            return null;
+        }
 
         int firstIndex = arrTeam.indexOf('[');
         int lastIndex = arrTeam.lastIndexOf(']');

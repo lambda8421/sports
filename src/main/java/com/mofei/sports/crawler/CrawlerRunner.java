@@ -49,16 +49,17 @@ public class CrawlerRunner implements CommandLineRunner {
         }
 
         List<BasketballMatch> basketballMatchList = CleansingData.getBasketballMatches(crawler.getCrawlerData());
-        saveDataService.saveBasketballMatches( basketballMatchList);
-
-        for(BasketballMatch match : basketballMatchList){
-            String oddsUrl = "http://nba.win007.com/jsData/analyOdds/" + match.getMatchId() + ".js";
-            matchOddsCrawler.init(oddsUrl);
-            BasketballMatchOdds basketballMatchOdds = CleansingData.getBasketballMatchOdds(
-                    matchOddsCrawler.getCrawlerData(),
-                    match.getMatchId());
-            if (basketballMatchOdds != null){
-                saveDataService.saveBasketballMatchOdds(basketballMatchOdds);
+        if (basketballMatchList != null){
+            saveDataService.saveBasketballMatches( basketballMatchList);
+            for(BasketballMatch match : basketballMatchList){
+                String oddsUrl = "http://nba.win007.com/jsData/analyOdds/" + match.getMatchId() + ".js";
+                matchOddsCrawler.init(oddsUrl);
+                BasketballMatchOdds basketballMatchOdds = CleansingData.getBasketballMatchOdds(
+                        matchOddsCrawler.getCrawlerData(),
+                        match.getMatchId());
+                if (basketballMatchOdds != null){
+                    saveDataService.saveBasketballMatchOdds(basketballMatchOdds);
+                }
             }
         }
     }
