@@ -43,6 +43,9 @@ public class CrawlerRunner implements CommandLineRunner {
     private void executeTask(String url){
         crawler.init(url);
 
+        if (crawler.getCrawlerData() == null){
+            return;
+        }
         List<BasketballTeam> basketballTeams = CleansingData.getBasketballTeams(crawler.getCrawlerData());
         if (basketballTeams != null){
             saveDataService.saveBasketballTeams(basketballTeams);

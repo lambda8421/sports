@@ -134,7 +134,6 @@ public class CleansingData {
     private static List<BasketballMatch> generateBasketballMatchesList(List<List<String>> lists) {
         List<BasketballMatch> BasketballMatches = new ArrayList<>();
         for (List<String> list : lists) {
-            BasketballMatch basketballMatch = new BasketballMatch();
 
 //            try {
 //                Float.valueOf(list.get(10));
@@ -142,27 +141,30 @@ public class CleansingData {
 //                System.out.println(list.toString());
 //            }
 
-            basketballMatch.setMatchId(Long.valueOf(list.get(0)));
-            basketballMatch.setMatchType(BasketballMatchType.of(Integer.valueOf(list.get(1))));
-            String date = list.get(2).replace("'", "");
-            basketballMatch.setSeason(Integer.valueOf(date.substring(0, 4)));
-            basketballMatch.setSeason(Integer.valueOf(date.substring(5, 7)));
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            try {
-                basketballMatch.setMatchDate(formatter.parse(date));
-            } catch (Exception e) {
-                basketballMatch.setMatchDate(new Date());
-                System.out.println(e.getStackTrace());
+            if (list.size() > 11){
+                BasketballMatch basketballMatch = new BasketballMatch();
+                basketballMatch.setMatchId(Long.valueOf(list.get(0)));
+                basketballMatch.setMatchType(BasketballMatchType.of(Integer.valueOf(list.get(1))));
+                String date = list.get(2).replace("'", "");
+                basketballMatch.setSeason(Integer.valueOf(date.substring(0, 4)));
+                basketballMatch.setSeason(Integer.valueOf(date.substring(5, 7)));
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                try {
+                    basketballMatch.setMatchDate(formatter.parse(date));
+                } catch (Exception e) {
+                    basketballMatch.setMatchDate(new Date());
+                    System.out.println(e.getStackTrace());
+                }
+                basketballMatch.setHostTeamId(Integer.valueOf(list.get(3)));
+                basketballMatch.setGuestTeamId(Integer.valueOf(list.get(4)));
+                basketballMatch.setHostTeamScore(list.get(5).equals("") ?  0 : Integer.valueOf(list.get(5)) );
+                basketballMatch.setGuestTeamScore(list.get(6).equals("") ?  0 :Integer.valueOf(list.get(6)));
+                basketballMatch.setHostTeamHalfScore(list.get(7).equals("") || list.get(7).equals("''") ?  0 : Integer.valueOf(list.get(7)));
+                basketballMatch.setGuestTeamHalfScore(list.get(8).equals("") || list.get(8).equals("''")?  0 : Integer.valueOf(list.get(8)));
+                basketballMatch.setHandicapScore(list.get(10).equals("") ? 0: Float.valueOf(list.get(10)));
+                basketballMatch.setPredictTotalScore(list.get(11).equals("") ? 0: Float.valueOf(list.get(11)));
+                BasketballMatches.add(basketballMatch);
             }
-            basketballMatch.setHostTeamId(Integer.valueOf(list.get(3)));
-            basketballMatch.setGuestTeamId(Integer.valueOf(list.get(4)));
-            basketballMatch.setHostTeamScore(list.get(5).equals("") ?  0 : Integer.valueOf(list.get(5)) );
-            basketballMatch.setGuestTeamScore(list.get(6).equals("") ?  0 :Integer.valueOf(list.get(6)));
-            basketballMatch.setHostTeamHalfScore(list.get(7).equals("") || list.get(7).equals("''") ?  0 : Integer.valueOf(list.get(7)));
-            basketballMatch.setGuestTeamHalfScore(list.get(8).equals("") || list.get(8).equals("''")?  0 : Integer.valueOf(list.get(8)));
-            basketballMatch.setHandicapScore(list.get(10).equals("") ? 0: Float.valueOf(list.get(10)));
-            basketballMatch.setPredictTotalScore(list.get(11).equals("") ? 0: Float.valueOf(list.get(11)));
-            BasketballMatches.add(basketballMatch);
         }
         return BasketballMatches;
     }

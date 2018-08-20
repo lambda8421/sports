@@ -35,6 +35,7 @@ public class Crawler {
             }
             crawlerData = contentBuf.toString();
         }catch (Exception e){
+            crawlerData = null;
             System.out.println(e.getStackTrace());
         }
     }
