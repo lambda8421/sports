@@ -1,39 +1,38 @@
 package com.mofei.sports.web.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+
+
+
 
 @Entity
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
+    @Column
     private String username;
 
+    @Column
+    @JsonIgnore
     private String password;
 
-    private float score;
+    @Column
+    private long salary;
 
-    private String email;
+    @Column
+    private int age;
 
-    private String phone;
-
-    private String address;
-
-
-    public User() {
+    public long getId() {
+        return id;
     }
 
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -52,35 +51,19 @@ public class User {
         this.password = password;
     }
 
-    public float getScore() {
-        return score;
+    public long getSalary() {
+        return salary;
     }
 
-    public void setScore(float score) {
-        this.score = score;
+    public void setSalary(long salary) {
+        this.salary = salary;
     }
 
-    public String getEmail() {
-        return email;
+    public int getAge() {
+        return age;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAge(int age) {
+        this.age = age;
     }
 }
