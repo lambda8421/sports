@@ -25,17 +25,17 @@ public class CrawlerRunner implements CommandLineRunner {
     @Override
     public void run(String...args) throws Exception {
 
-//        Queue<String> queue = generateTaskToQueue();
-//
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                String url = queue.poll();
-////                String url = "http://nba.win007.com/jsData/matchResult/17-18/l1_1_2018_1.js";
-//                executeTask(url);
-//            }
-//        },3000,5000);
+        Queue<String> queue = generateTaskToQueue();
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String url = queue.poll();
+//                String url = "http://nba.win007.com/jsData/matchResult/17-18/l1_1_2018_1.js";
+                executeTask(url);
+            }
+        },3000,5000);
 
     }
 
