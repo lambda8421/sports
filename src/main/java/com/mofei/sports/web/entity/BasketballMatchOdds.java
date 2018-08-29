@@ -16,7 +16,7 @@ public class BasketballMatchOdds implements Serializable {
     @Column(name = "match_id")
     private Long matchId;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "match_id",referencedColumnName = "match_id")
     private List<OddsCompany> list;
 

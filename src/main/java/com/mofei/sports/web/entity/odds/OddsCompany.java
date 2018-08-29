@@ -1,13 +1,10 @@
 package com.mofei.sports.web.entity.odds;
 
-import com.mofei.sports.web.entity.BasketballMatch;
-import com.mofei.sports.web.entity.BasketballMatchOdds;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class OddsCompany implements Serializable {
+public class OddsCompany implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -2,8 +2,10 @@ package com.mofei.sports.web.controller;
 
 import com.mofei.sports.web.base.BasketballLeague;
 import com.mofei.sports.web.entity.BasketballMatch;
+import com.mofei.sports.web.entity.BasketballMatchOdds;
 import com.mofei.sports.web.entity.BasketballTeam;
 import com.mofei.sports.web.service.BasketBallService;
+import com.mofei.sports.web.service.BasketballMatchOddsService;
 import com.mofei.sports.web.service.BasketballMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,9 @@ public class BasketballController {
 
     @Autowired
     private BasketballMatchService basketballMatchService;
+
+    @Autowired
+    private BasketballMatchOddsService basketballMatchOddsService;
 
     @GetMapping("/nba/teams")
     @ResponseBody
@@ -45,4 +50,11 @@ public class BasketballController {
         return basketballMatches;
     }
 
+    @GetMapping("/nba/match/odds/{page}")
+    @ResponseBody
+    public BasketballMatchOdds getNBAMatchOddsByPage(@PathVariable Integer page){
+        PageRequest pageRequest = new PageRequest(page,10);
+        List<BasketballMatchOdds> basketballMatchOdds = basketballMatchOddsService.findAll(pageRequest);
+        return basketballMatchOdds.get(0);
+    }
 }
