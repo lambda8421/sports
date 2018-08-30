@@ -4,6 +4,7 @@ import com.mofei.sports.crawler.Crawler;
 import com.mofei.sports.web.entity.BasketballTeam;
 import com.mofei.sports.web.entity.Book;
 import com.mofei.sports.web.entity.BookCategory;
+import com.mofei.sports.web.entity.SubBook;
 import com.mofei.sports.web.service.BasketBallService;
 import com.mofei.sports.web.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +49,10 @@ public class HomeController {
         BookCategory bookCategory = new BookCategory();
         bookCategory.setName("sss");
         bookCategory.setCate(111);
-        Book book1 = new Book();
+        Book book1 = new SubBook();
         book1.setTitle("X1");
 
-        Book book2 = new Book();
+        Book book2 = new SubBook();
         book2.setTitle("X2");
 
         List<Book> books = new ArrayList<>();
@@ -61,5 +62,12 @@ public class HomeController {
 
         BookCategory bookCategory1 = bookService.save(bookCategory);
         return bookCategory1;
+    }
+
+    @ResponseBody
+    @GetMapping("/test/book")
+    public BookCategory testGetBook(){
+
+        return bookService.findByName("sss");
     }
 }

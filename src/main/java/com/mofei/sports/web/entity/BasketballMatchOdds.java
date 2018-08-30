@@ -1,7 +1,5 @@
 package com.mofei.sports.web.entity;
 
-import com.mofei.sports.web.entity.odds.OddsCompany;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;

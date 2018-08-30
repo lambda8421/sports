@@ -1,6 +1,6 @@
 package com.mofei.sports.web.service;
 
-import com.mofei.sports.web.model.User;
+import com.mofei.sports.web.entity.User;
 
 import java.util.List;
 

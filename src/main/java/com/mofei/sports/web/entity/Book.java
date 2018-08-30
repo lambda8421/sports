@@ -10,7 +10,7 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String title;
+    protected String title;
 
     public Book() {
     }

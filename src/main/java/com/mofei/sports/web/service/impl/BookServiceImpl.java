@@ -16,4 +16,9 @@ public class BookServiceImpl implements BookService {
     public BookCategory save(BookCategory bookCategory) {
         return bookRespository.save(bookCategory);
     }
+
+    @Override
+    public BookCategory findByName(String x1) {
+        return bookRespository.findByName(x1);
+    }
 }

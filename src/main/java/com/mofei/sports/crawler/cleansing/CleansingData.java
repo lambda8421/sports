@@ -4,7 +4,7 @@ import com.mofei.sports.web.base.BasketballMatchType;
 import com.mofei.sports.web.entity.BasketballMatch;
 import com.mofei.sports.web.entity.BasketballMatchOdds;
 import com.mofei.sports.web.entity.BasketballTeam;
-import com.mofei.sports.web.entity.odds.OddsCompany;
+import com.mofei.sports.web.entity.OddsCompany;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

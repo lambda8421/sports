@@ -18,8 +18,6 @@ public class BasketballTeam {
 
     private BasketballLeague league;
 
-
-
     private String nameZH;
 
     private String nameZHHK;
